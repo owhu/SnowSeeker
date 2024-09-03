@@ -12,6 +12,8 @@ struct ContentView: View {
     
     @State private var searchText = ""
     
+    @State private var favorites = Favorites()
+    
     var filteredResorts: [Resort] {
         if searchText.isEmpty {
            resorts
@@ -43,7 +45,15 @@ struct ContentView: View {
                             Text("\(resort.runs) runs")
                                 .foregroundStyle(.secondary)
                         }
+                        
+                        if favorites.contains(resort) {
+                            Spacer()
+                            Image(systemName: "heart.fill")
+                            .accessibilityLabel("This is a favorite resort")
+                                .foregroundStyle(.red)
+                        }
                     }
+                    
                 }
             }
             .navigationTitle("Resorts")
@@ -54,6 +64,7 @@ struct ContentView: View {
         } detail: {
             WelcomeView()
         }
+        .environment(favorites)
     }
 }
 
